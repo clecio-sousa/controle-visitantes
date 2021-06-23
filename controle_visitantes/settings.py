@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 ]
 INSTALLED_APPS += [ # melhor organizacao para separar os apps criados nativamente  dos criados pelo
     'usuarios',
+    'porteiros',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField' # configuracao de chaves primarias
