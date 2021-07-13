@@ -9,10 +9,11 @@ from django.contrib.auth.models import (
 class UsuarioManager(BaseUserManager): #sub-classe de BaseUserManager
     def create_user(self, email, password=None):
         usuario = self.model(
+            
             email = self.normalize_email(email) # metodo que evita que o email seja salvo fora do padrao
                     
         )
-        
+                
         usuario.is_active = True
         usuario.is_staff = False
         usuario.is_superuser = False
@@ -25,6 +26,7 @@ class UsuarioManager(BaseUserManager): #sub-classe de BaseUserManager
 
     def create_superuser(self, email, password):
         usuario = self.create_user(
+            
             email = self.normalize_email(email),
             password = password,
         )
@@ -39,10 +41,17 @@ class UsuarioManager(BaseUserManager): #sub-classe de BaseUserManager
         return usuario
 
 
-class Usuario(AbstractBaseUser, PermissionsMixin):
-    
-    
-    
+class Usuario(AbstractBaseUser, PermissionsMixin):    
+    username = models.CharField(
+        ('username'),
+        max_length=15,
+        unique=True,
+    )
+    nome_completo = models.CharField(
+        verbose_name="Nome completo",
+        max_length=194
+        
+    )
     email = models.EmailField(
         verbose_name='E-mail do usuário',
         max_length=200,
@@ -74,8 +83,8 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = "Usuários"
         db_table = "usuario" # Nome da tabela no BD
 
-        def __str__(self):
-            return self.nome_completo
+    def __str__(self):
+        return self.nome_completo
 
 
 
