@@ -7,3 +7,12 @@ class VisitanteForm(forms.ModelForm):
     class Meta:
         model = Visitante
         fields = "__all__" #representa todos os campos
+        
+        """" 
+        CAMPOS SELECIONADOS
+        
+        fields = (
+            "nome_completo", "cpf","data_nascimento",
+            "numero_casa", "placa_veiculo"
+        )
+        """
