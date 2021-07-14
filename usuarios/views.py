@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from visitantes.models import Visitante
+# Create your views here.
+
 def index(request):
     
     todos_visitantes = Visitante.objects.all()
@@ -10,5 +12,5 @@ def index(request):
     }    
     return render(request, "index.html", context)
 
-# Create your views here.
+
 

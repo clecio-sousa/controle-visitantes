@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
 ]
+
+INSTALLED_APPS += [
+    'widget_tweaks',
+]
 INSTALLED_APPS += [ # melhor organizacao para separar os apps criados nativamente  dos criados pelo
     'usuarios',
     'porteiros',
