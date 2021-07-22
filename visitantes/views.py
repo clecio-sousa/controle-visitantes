@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from visitantes.models import Visitante
-from visitantes.forms import VisitanteForm #importando VISITANTES FORMS de forms
+from visitantes.forms import VisitanteForm, AutorizaVisitanteForm #importando VISITANTES FORMS de forms
 from django.contrib import messages
+from django.utils import timezone
+from django.http import HttpResponseNotAllowed
 
 # Create your views here.
 
@@ -42,8 +44,53 @@ def informacoes_visitante(request, id):
         id=id
     )
     
+    form = AutorizaVisitanteForm()
+    
+    if request.method == "POST":
+        form = AutorizaVisitanteForm(
+            request.POST,
+            instance=visitante
+        )
+        
+        if form.is_valid():
+            
+            visitante = form.save(commit=False)
+            visitante.status = "EM_VISITA"
+            visitante.horario_autorizacao = timezone.now()
+            visitante.save()
+            
+            messages.success(
+                request, "Entrada de visitante autorizada" 
+            )
+            
+            return redirect ("index")
+    
     context = {
         "visitante": visitante,
-        "nome_pagina": "Informações do visitante,"
+        "nome_pagina": "Informações do visitante",
+        "form": form
     }
     return render(request, "informacoes_visitante.html", context)
+
+def finalizar_visita(request, id):
+    if request.method == "POST":
+        visitante = get_object_or_404(
+            Visitante,
+            id=id
+        )
+        
+        visitante.status = "FINALIZADO"
+        visitante.horario_saida = timezone.now()
+        visitante.save()
+        
+        messages.success(
+            request,
+            "Visita finalizada com sucesso"
+        )
+        return redirect("index")
+    
+    else:
+        return HttpResponseNotAllowed(
+            ["POST"],
+            "Método não permitido"
+        )
