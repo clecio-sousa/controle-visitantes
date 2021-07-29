@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,6 +27,9 @@ SECRET_KEY = '1u66t9!0z3!u_(n-lduleios$_&yx&_()#u*$s*@i)8n76ls0n'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+sys.path.append(
+    os.path.join(BASE_DIR, "apps")
+)
 
 
 # Application definition
@@ -47,6 +51,7 @@ INSTALLED_APPS += [ # melhor organizacao para separar os apps criados nativament
     'usuarios',
     'porteiros',
     'visitantes',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +139,8 @@ STATICFILES_DIRS=[
     os.path.join(BASE_DIR,"static")
 ]
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField' # configuracao de chaves primarias
+
+
+#configuracao de LOGIN 
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "index"

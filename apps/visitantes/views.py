@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required #somente users autenticados terao acesso ao dashboard
 from visitantes.models import Visitante
 from visitantes.forms import VisitanteForm, AutorizaVisitanteForm #importando VISITANTES FORMS de forms
 from django.contrib import messages
@@ -9,6 +10,7 @@ from django.http import HttpResponseNotAllowed
 
 #VIEW P/FAZER P CADASTRO DO VISITANTE
 
+@login_required
 def registrar_visitante(request):
     
     form = VisitanteForm()
@@ -37,6 +39,7 @@ def registrar_visitante(request):
 
 
 #VIEW P/BUSCAR INFORMACOES DO VISITANTE
+@login_required
 def informacoes_visitante(request, id):
     
     visitante = get_object_or_404(
@@ -72,6 +75,7 @@ def informacoes_visitante(request, id):
     }
     return render(request, "informacoes_visitante.html", context)
 
+@login_required
 def finalizar_visita(request, id):
     if request.method == "POST":
         visitante = get_object_or_404(
